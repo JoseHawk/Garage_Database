@@ -1,0 +1,275 @@
+//Se importan los paquetes necesarios para la clase
+import java.io.*;
+import java.util.ArrayList;
+
+/**Clase utilizada para gestionar el taller. Contiene el main, por tanto es desde donde se ejecuta el programa.
+*/
+public class GestionTaller{
+  
+ //Datos miembro
+  
+  /**Dato miembro: Objeto de la clase Taller
+  */
+  Taller taller;
+  
+  //Constructor de la clase
+  
+  /**Constructor que contiene un objeto de la clase Taller, con el cual se ejecutaran los metodos
+  */
+  GestionTaller(){
+    taller=new Taller();}
+  
+  /** Array que contiene las opciones del menu principal del programa
+  */
+  private static final String menuPrincipal[]={
+      "0.- Salir del programa",
+      "1.- Gestión de clientes",
+      "2.- Gestión de vehículos",
+      "3.- Gestión de partes de reparación",
+      "4.- Estado general del taller"};
+  
+  /** Array que contiene las opciones del menu Gestion de Clientes.
+  */
+  private static final String menuGestionDeClientes[]={
+      "0.- Ir al menú principal",
+      "1.- Dar de alta a un nuevo cliente",
+      "2.- Dar de baja a un cliente",
+      "3.- Mostrar los datos de un cliente",
+      "4.- Mostrar los datos de todos los clientes",
+      "5.- Modificar datos de un cliente"};
+  
+  /** Array que contiene las opciones del menu Gestion de Vehiculos.
+  */
+   private static final String menuGestionDeVehiculos[]={
+      "0.- Ir al menú principal",
+      "1.- Dar de alta a un nuevo vehículo",
+      "2.- Dar de baja a un vehículo",
+      "3.- Mostrar los datos de un vehículo",
+      "4.- Mostrar los datos de todos los vehículos",
+      "5.- Modificar datos de un vehículo",
+      "6.- Mostrar el historial de reparaciones de un vehículo"};
+   
+   /** Array que contiene las opciones del menu Gestion de partes.
+   */
+    private static final String menuGestionDePartes[]={
+      "0.- Ir al menú principal",
+      "1.- Crear un nuevo parte de reparación",
+      "2.- Finalizar la reparación de un vehículo",
+      "3.- Dar un listado de todos los partes pendientes",
+      "4.- Dar un listado de todos los partes de un cliente",
+      "5.- Calcular el número de horas medias para los partes ya finalizados",
+      "6.- Modificar el número de horas estimadas para la reparación de un vehículo"};
+  
+  /**
+  * Metodo para mostrar un menu
+  * @param titulo Titulo general del menu
+  * @param menu Lista de opciones a imprimir
+  */
+  private static void mostrarMenu(String titulo,String menu[]){       
+      
+      System.out.println(titulo);
+      for(int i=0;i<menu.length;i++){
+         System.out.println(menu[i]);}     
+  }//Final del metodo mostrarMenu
+  
+ 
+  /**
+   * Metodo a usar para elegir una de las opciones de un menu
+   * @param titulo Titulo del menu
+   * @param menu Opciones del menu
+   */
+   private static int elegirOpcionMenu(String titulo,String menu[]){
+     
+    mostrarMenu(titulo,menu);
+    
+    int entrada=0;
+    
+    InputStreamReader isr=new InputStreamReader(System.in);
+    BufferedReader br=new BufferedReader(isr);
+    
+    try{
+      entrada=Integer.parseInt(br.readLine());
+    }
+    catch(IOException e){
+    System.out.println("Error en la lectura");
+    System.exit(0);
+    }
+    return entrada;
+   
+   }//Final del metodo elegirOpcionMenu
+
+  /**Metodo main: Permite la ejecucion del programa. Los metodos creados en las otras clases se ejecutaran a partir de este.
+  */
+  public static void main ( String [] args ){
+    
+    GestionTaller gestionTaller=new GestionTaller();
+    
+    gestionTaller.taller.clientesDePrueba();
+    gestionTaller.taller.vehiculosDePrueba();
+    gestionTaller.taller.partesDePrueba();
+    
+      int valorMenuPrincipal;
+      int valorMenuGestionDeVehiculos;
+      int valorMenuGestionDePartes;
+      int valorMenuGestionDeClientes;
+      boolean volverMenuPrincipal=false;
+
+
+do{ //Controla que se repita todo cuando el boolean cambie su valor
+
+  System.out.println("Seleccione una opción del menú principal");
+
+
+do{
+  valorMenuPrincipal=elegirOpcionMenu("Menú Principal", menuPrincipal);
+  }while(valorMenuPrincipal <0 && valorMenuPrincipal >4);
+  
+switch(valorMenuPrincipal){
+  
+  case 0: valorMenuPrincipal=0;
+    System.out.println("Ha seleccionado salir del programa");
+    System.exit(0);
+    break;
+    
+//CLIENTES
+  
+  case 1: valorMenuPrincipal=1;
+   System.out.println("Ha seleccionado la opción Gestión de Clientes");
+    
+    do{ //Controla que no se introduzca un valor distinto de los marcados en los distintos casos.
+     valorMenuGestionDeClientes=elegirOpcionMenu("Menú Gestión de Clientes", menuGestionDeClientes);
+      }while(valorMenuGestionDeClientes <0 && valorMenuPrincipal >5);
+         
+              switch(valorMenuGestionDeClientes){
+                
+               case 0: valorMenuGestionDeClientes=0; volverMenuPrincipal=true;
+                 System.out.println("Ha seleccionado regresar al menú principal");
+                 break;  
+               case 1: valorMenuGestionDeClientes=1;
+                 System.out.println("Ha seleccionado dar de alta a un nuevo cliente");
+                 gestionTaller.taller.altaCliente();
+                 break;
+               case 2: valorMenuGestionDeClientes=2;
+                 System.out.println("Ha seleccinado dar de baja a un cliente");
+                 gestionTaller.taller.bajaCliente();
+                 break;
+               case 3: valorMenuGestionDeClientes=3;
+                 System.out.println("Ha seleccionado mostrar los datos de un cliente");
+                 gestionTaller.taller.mostrarCliente();
+                 break;
+               case 4: valorMenuGestionDeClientes=4;
+                 System.out.println("Ha seleccionado mostrar los datos de todos los clientes");
+                 gestionTaller.taller.inventarioClientes();
+                 break;
+               case 5: valorMenuGestionDeClientes=5;
+                 System.out.println("Ha seleccionado modificar los datos de un cliente");
+                 gestionTaller.taller.modificarCliente();
+                 break;
+                 
+              }//Final del switch Clientes
+            
+                    
+  break;
+  
+//VEHICULOS
+            
+  case 2: valorMenuPrincipal=2;
+   System.out.println("Ha seleccionado la opción Gestión de Vehículos");
+   
+    do{ //Controla que no se introduzca un valor distinto de los marcados en los distintos casos.
+     valorMenuGestionDeVehiculos=elegirOpcionMenu("Menú Gestión de Vehículos", menuGestionDeVehiculos);
+      }while(valorMenuGestionDeVehiculos <0 && valorMenuGestionDeVehiculos >6);
+            
+            switch(valorMenuGestionDeVehiculos){
+              
+               case 0: valorMenuGestionDeVehiculos=0; volverMenuPrincipal=true;
+                 System.out.println("Ha seleccionado regresar al menú principal");
+                 break;  
+               case 1: valorMenuGestionDeVehiculos=1;
+                 System.out.println("Ha seleccionado dar de alta a un nuevo vehículo");
+                 gestionTaller.taller.altaVehiculo();
+                 break;
+               case 2: valorMenuGestionDeVehiculos=2;
+                 System.out.println("Ha seleccinado dar de baja a un vehículo");
+                 gestionTaller.taller.bajaVehiculo();
+                 break;
+               case 3: valorMenuGestionDeVehiculos=3;
+                 System.out.println("Ha seleccionado mostrar los datos de un vehículo");
+                 gestionTaller.taller.mostrarVehiculo();
+                 break;
+               case 4: valorMenuGestionDeVehiculos=4;
+                 System.out.println("Ha seleccionado mostrar los datos de todos los vehículos");
+                 gestionTaller.taller.inventarioVehiculos();
+                 break;
+               case 5: valorMenuGestionDeVehiculos=5;
+                 System.out.println("Ha seleccionado modificar los datos de un vehículo");
+                 gestionTaller.taller.modificarVehiculo();
+                 break;
+               case 6: valorMenuGestionDeVehiculos=6;
+                 System.out.println("Ha seleccionado mostrar el historial de reparación de un vehículo");
+                 gestionTaller.taller.historialReparaciones();
+                 break;
+                 
+              }//Final del switch Vehiculos
+            
+            
+  break;
+  
+//PARTES
+
+  case 3: valorMenuPrincipal=3;
+   System.out.println("Ha seleccionado la opción Gestión de Partes de Reparación");
+    
+    do{ //Controla que no se introduzca un valor distinto de los marcados en los distintos casos.     
+     valorMenuGestionDePartes=elegirOpcionMenu("Menú Gestión de Partes de Reparación", menuGestionDePartes);
+      }while(valorMenuGestionDePartes <0 && valorMenuGestionDePartes >6);
+      
+            switch(valorMenuGestionDePartes){
+              
+               case 0: valorMenuGestionDePartes=0; volverMenuPrincipal=true;
+                 System.out.println("Ha seleccionado regresar al menú principal");
+                 break;
+               case 1: valorMenuGestionDePartes=1;
+                 System.out.println("Ha seleccionado crear un nuevo parte de reparación");
+                 gestionTaller.taller.altaParte();
+                 break;  
+               case 2: valorMenuGestionDePartes=2;
+                 System.out.println("Ha seleccionado finalizar la reparación de un vehículo");
+                 gestionTaller.taller.finalizarReparacion();
+                 break;
+               case 3: valorMenuGestionDePartes=3;
+                 System.out.println("Ha seleccionado dar un listado de todos los partes de reparación pendientes");
+                 gestionTaller.taller.partesPendientes();
+                 break;
+               case 4: valorMenuGestionDePartes=4;
+                 System.out.println("Ha seleccionado dar un listado de todos los partes de reparación de un cliente");
+                 gestionTaller.taller.partesCliente();
+                 break;
+               case 5: valorMenuGestionDePartes=5;
+                 System.out.println("Ha seleccionado calcular el número de horas medias reales para los partes ya finalizados");
+                 gestionTaller.taller.horasMedias();
+                 break;
+               case 6: valorMenuGestionDePartes=6;
+                 System.out.println("Ha seleccionado modificar el número de horas estimadas de reparación de un vehículo");
+                 gestionTaller.taller.modificarParte();
+                 break;
+               
+                 
+              }//Final del Switch Partes
+              
+            
+  break;
+            
+//ESTADO GENERAL
+  case 4: valorMenuPrincipal=4;
+   System.out.println("Ha seleccionado la opción Estado General Del Taller");
+   gestionTaller.taller.imprimirTodo();
+   break;
+   
+}//Final del Switch Principal
+
+}while(volverMenuPrincipal=true);
+
+}//Final del metodo main
+  
+}//Final de la clase GestionTaller
